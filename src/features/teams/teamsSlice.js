@@ -73,7 +73,10 @@ export const {
   selectById: selectTeamById,
 } = teamsAdapter.getSelectors((state) => state.teams);
 
-export const selectTeamsByLeagueId = createSelector(
+export const selectTeamsIdsByLeagueId = createSelector(
   [selectAllTeams, (state, leagueId) => leagueId],
-  (teams, leagueId) => teams.filter((team) => team.league_id === leagueId)
+  (teams, leagueId) =>
+    teams
+      .filter((team) => team.league_id === leagueId)
+      .map((team) => team.team_id)
 );

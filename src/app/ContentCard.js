@@ -1,0 +1,46 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { Card, Grid } from "semantic-ui-react";
+import Standings from "../features/leagues/Standings";
+
+const propTypes = { type: PropTypes.string.isRequired };
+
+const style = {
+  card: { minHeight: "280px" },
+  cardHeader: { display: "flex" },
+  cardDescription: {
+    marginTop: "1.2rem",
+    maxHeight: "320px",
+    overflowY: "auto",
+  },
+};
+
+const cardConfig = {
+  standings: {
+    width: 16,
+    title: "Standings",
+    Content: Standings,
+  },
+};
+
+function ContentCard({ type }) {
+  const { width, title, Content } = cardConfig[type];
+  return (
+    <Grid.Column width={width}>
+      <Card fluid={true} style={style.card}>
+        <Card.Content>
+          <Card.Header style={style.cardHeader}>
+            <h3>{title}</h3>
+          </Card.Header>
+          <Card.Description style={style.cardDescription}>
+            <Content />
+          </Card.Description>
+        </Card.Content>
+      </Card>
+    </Grid.Column>
+  );
+}
+
+ContentCard.propTypes = propTypes;
+
+export default ContentCard;

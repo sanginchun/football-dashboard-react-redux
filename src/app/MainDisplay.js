@@ -6,15 +6,11 @@ const style = {
   position: "absolute",
   left: `${SIDEBAR_WIDTH}px`,
   width: `calc(100% - ${SIDEBAR_WIDTH}px)`,
-  padding: "1rem 5rem 3rem",
+  padding: "1rem 4% 3rem",
 };
 
-const MainDisplay = () => {
-  return (
-    <main style={style}>
-      <div>MainDisplay</div>
-    </main>
-  );
+const MainDisplay = (props) => {
+  return <main style={style}>{props.children}</main>;
 };
 
 export default MainDisplay;
