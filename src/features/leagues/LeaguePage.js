@@ -6,9 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { selectLeagueById } from "./leaguesSlice";
 import { fetchMatches } from "../matches/matchesSlice";
+import { fetchTopScorers } from "../leagues/leaguesSlice";
 
 import PageHeader from "../../app/PageHeader";
-import ContentCard from "../../app/ContentCard";
+import ContentCard from "../../cards/ContentCard";
 
 function LeaguePage() {
   const dispatch = useDispatch();
@@ -18,6 +19,9 @@ function LeaguePage() {
   const leagueMatchStatus = useSelector(
     (state) => state.matches.leaguesUpdated[+leagueId]
   );
+  const topScorersStatus = useSelector(
+    (state) => state.leagues.topScorersStatus
+  );
   const matchesStatus = useSelector((state) => state.matches.status);
 
   useEffect(() => {
@@ -25,6 +29,21 @@ function LeaguePage() {
       dispatch(fetchMatches(league.league_id));
     }
   }, [dispatch, league, leagueMatchStatus, matchesStatus]);
+
+  useEffect(() => {
+    if (
+      league?.seasonId &&
+      !league.topScorers &&
+      topScorersStatus !== "loading"
+    ) {
+      dispatch(
+        fetchTopScorers({
+          leagueId: league.league_id,
+          seasonId: league.seasonId,
+        })
+      );
+    }
+  }, [dispatch, league, topScorersStatus]);
 
   const renderedHeader = league ? (
     <PageHeader headerText={league.name} />
@@ -39,6 +58,7 @@ function LeaguePage() {
         <ContentCard type="standings" />
         <ContentCard type="matchResult" />
         <ContentCard type="matchUpcoming" />
+        <ContentCard type="topScorers" />
       </Grid>
     </div>
   );

@@ -4,10 +4,13 @@ import { Placeholder, Table } from "semantic-ui-react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import MatchDetail from "./MatchDetail";
-import { selectMatchesFinished, selectMatchesUpcoming } from "./matchesSlice";
-import DatePicker from "../../app/DatePicker";
-import { getUniqueDates } from "../../helper";
+import MatchDetail from "../features/matches/MatchDetail";
+import {
+  selectMatchesFinished,
+  selectMatchesUpcoming,
+} from "../features/matches/matchesSlice";
+import DatePicker from "../app/DatePicker";
+import { getUniqueDates } from "../helper";
 
 const style = {
   root: { height: "260px", overflowY: "auto" },

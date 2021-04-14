@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card, Grid } from "semantic-ui-react";
-import Standings from "../features/leagues/Standings";
-import Matches from "../features/matches/Matches";
+import Standings from "./Standings";
+import Matches from "./Matches";
+import TopScorers from "./TopScorers";
 
 const propTypes = { type: PropTypes.string.isRequired };
 
@@ -32,6 +33,11 @@ const cardConfig = {
     title: "Upcoming",
     subType: "upcoming",
     Content: Matches,
+  },
+  topScorers: {
+    width: 16,
+    title: "Top Scorers",
+    Content: TopScorers,
   },
 };
 

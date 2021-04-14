@@ -4,8 +4,8 @@ import { Placeholder, Table } from "semantic-ui-react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { selectLeagueById } from "./leaguesSlice";
-import TeamDetail from "../teams/TeamDetail";
+import { selectLeagueById } from "../features/leagues/leaguesSlice";
+import TeamDetail from "../features/teams/TeamDetail";
 
 const style = {
   root: { maxHeight: "300px", overflowY: "auto" },
