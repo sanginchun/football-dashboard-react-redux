@@ -6,7 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import sportDataApi from "../../api/sportDataApi";
 import { formatTeamName } from "../../helper";
-import { standingsUpdated } from "../leagues/leaguesSlice";
+import { seasonIdUpdated, standingsUpdated } from "../leagues/leaguesSlice";
 
 const teamsAdapter = createEntityAdapter({
   selectId: (entity) => entity.team_id,
@@ -26,11 +26,11 @@ export const fetchTeams = createAsyncThunk(
     });
 
     const [currentSeason] = seasons.filter((season) => season.is_current);
+    dispatch(seasonIdUpdated({ leagueId, seasonId: currentSeason.season_id }));
 
     const { standings } = await sportDataApi.get("/standings", {
       params: { season_id: currentSeason.season_id },
     });
-
     dispatch(standingsUpdated({ leagueId, standings }));
 
     const teams = await Promise.all(
@@ -79,4 +79,9 @@ export const selectTeamsIdsByLeagueId = createSelector(
     teams
       .filter((team) => team.league_id === leagueId)
       .map((team) => team.team_id)
+);
+
+export const selectTeamIdByTeamName = createSelector(
+  [selectAllTeams, (state, teamName) => teamName],
+  (teams, teamName) => teams.find((team) => team.name === teamName).team_id
 );

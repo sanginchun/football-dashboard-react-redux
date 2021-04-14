@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 
 import { fetchTeams, selectTeamsIdsByLeagueId } from "./teamsSlice";
 import TeamDetail from "./TeamDetail";
+import { Dropdown } from "semantic-ui-react";
 
 const propTypes = { leagueId: PropTypes.number };
 
@@ -29,7 +30,9 @@ function TeamMenu({ leagueId }) {
   let renderedTeamMenu = null;
   if (teamIds.length) {
     renderedTeamMenu = teamIds.map((teamId) => (
-      <TeamDetail key={teamId} teamId={teamId} />
+      <Dropdown.Item key={teamId}>
+        <TeamDetail teamId={teamId} />
+      </Dropdown.Item>
     ));
   } else {
     renderedTeamMenu = null;

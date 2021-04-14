@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, Grid } from "semantic-ui-react";
 import Standings from "../features/leagues/Standings";
+import Matches from "../features/matches/Matches";
 
 const propTypes = { type: PropTypes.string.isRequired };
 
@@ -10,8 +11,7 @@ const style = {
   cardHeader: { display: "flex" },
   cardDescription: {
     marginTop: "1.2rem",
-    maxHeight: "320px",
-    overflowY: "auto",
+    overflowY: "hidden",
   },
 };
 
@@ -21,10 +21,22 @@ const cardConfig = {
     title: "Standings",
     Content: Standings,
   },
+  matchResult: {
+    width: 8,
+    title: "Results",
+    subType: "result",
+    Content: Matches,
+  },
+  matchUpcoming: {
+    width: 8,
+    title: "Upcoming",
+    subType: "upcoming",
+    Content: Matches,
+  },
 };
 
 function ContentCard({ type }) {
-  const { width, title, Content } = cardConfig[type];
+  const { width, title, subType, Content } = cardConfig[type];
   return (
     <Grid.Column width={width}>
       <Card fluid={true} style={style.card}>
@@ -33,7 +45,7 @@ function ContentCard({ type }) {
             <h3>{title}</h3>
           </Card.Header>
           <Card.Description style={style.cardDescription}>
-            <Content />
+            <Content subType={subType} />
           </Card.Description>
         </Card.Content>
       </Card>

@@ -39,6 +39,10 @@ const leaguesSlice = createSlice({
   name: "leagues",
   initialState,
   reducers: {
+    seasonIdUpdated: (state, action) => {
+      const { leagueId, seasonId } = action.payload;
+      state.entities[leagueId].seasonId = seasonId;
+    },
     standingsUpdated: (state, action) => {
       const { leagueId, standings } = action.payload;
       state.entities[leagueId].standings = standings;
@@ -59,7 +63,7 @@ const leaguesSlice = createSlice({
   },
 });
 
-export const { standingsUpdated } = leaguesSlice.actions;
+export const { seasonIdUpdated, standingsUpdated } = leaguesSlice.actions;
 
 export default leaguesSlice.reducer;
 

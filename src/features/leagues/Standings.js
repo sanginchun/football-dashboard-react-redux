@@ -8,6 +8,7 @@ import { selectLeagueById } from "./leaguesSlice";
 import TeamDetail from "../teams/TeamDetail";
 
 const style = {
+  root: { maxHeight: "300px", overflowY: "auto" },
   tableHeaderCell: { position: "sticky", top: "0" },
 };
 
@@ -63,12 +64,14 @@ function Standings() {
   ));
 
   return (
-    <Table celled={true} size="small">
-      <Table.Header>
-        <Table.Row>{renderedHeader}</Table.Row>
-      </Table.Header>
-      <Table.Body>{renderedBody}</Table.Body>
-    </Table>
+    <div style={style.root}>
+      <Table celled={true} size="small">
+        <Table.Header>
+          <Table.Row>{renderedHeader}</Table.Row>
+        </Table.Header>
+        <Table.Body>{renderedBody}</Table.Body>
+      </Table>
+    </div>
   );
 }
 
