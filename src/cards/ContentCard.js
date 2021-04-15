@@ -5,6 +5,8 @@ import Standings from "./Standings";
 import Matches from "./Matches";
 import TopScorers from "./TopScorers";
 
+import TeamStandings from "./TeamStandings";
+
 const propTypes = { type: PropTypes.string.isRequired };
 
 const style = {
@@ -38,6 +40,11 @@ const cardConfig = {
     width: 16,
     title: "Top Scorers",
     Content: TopScorers,
+  },
+  teamStandings: {
+    width: 8,
+    title: "Standings",
+    Content: TeamStandings,
   },
 };
 
