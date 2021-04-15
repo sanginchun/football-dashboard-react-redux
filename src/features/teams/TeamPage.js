@@ -35,7 +35,7 @@ function TeamPage() {
       {renderedHeader}
       <Grid>
         <ContentCard type="teamStandings" />
-        {/* <ContentCard type="teamSchedule" /> */}
+        <ContentCard type="teamSchedule" />
         {/* <ContentCard type="teamForm" /> */}
       </Grid>
     </div>

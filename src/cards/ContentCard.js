@@ -6,6 +6,7 @@ import Matches from "./Matches";
 import TopScorers from "./TopScorers";
 
 import TeamStandings from "./TeamStandings";
+import TeamSchedule from "./TeamSchedule";
 
 const propTypes = { type: PropTypes.string.isRequired };
 
@@ -45,6 +46,11 @@ const cardConfig = {
     width: 8,
     title: "Standings",
     Content: TeamStandings,
+  },
+  teamSchedule: {
+    width: 8,
+    title: "Upcoming",
+    Content: TeamSchedule,
   },
 };
 

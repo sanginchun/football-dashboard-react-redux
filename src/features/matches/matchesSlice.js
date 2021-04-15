@@ -6,7 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import sportDataApi from "../../api/sportDataApi";
 import { DATE_RANGE } from "../../config";
-import { getLocalDate } from "../../helper";
+import { formatTeamName, getLocalDate } from "../../helper";
 
 const matchesAdapter = createEntityAdapter({
   selectId: (entity) => entity.match_id,
@@ -89,5 +89,29 @@ export const selectMatchesUpcoming = createSelector(
         match.league_id === leagueId &&
         ["notstarted", ""].includes(match.status) &&
         new Date(match.match_start_iso) < new Date(Date.now() + DATE_RANGE.WEEK)
+    )
+);
+
+export const selectMatchesFinishedByTeam = createSelector(
+  [selectAllMatches, (state, teamName) => teamName],
+  (matches, teamName) =>
+    matches.filter(
+      (match) =>
+        match.status === "finished" &&
+        [match.home_team.name, match.away_team.name]
+          .map((name) => formatTeamName(name))
+          .includes(teamName)
+    )
+);
+
+export const selectMatchesUpcomingByTeam = createSelector(
+  [selectAllMatches, (state, teamName) => teamName],
+  (matches, teamName) =>
+    matches.filter(
+      (match) =>
+        ["notstarted", ""].includes(match.status) &&
+        [match.home_team.name, match.away_team.name]
+          .map((name) => formatTeamName(name))
+          .includes(teamName)
     )
 );

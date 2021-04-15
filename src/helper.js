@@ -17,6 +17,20 @@ export const getLocalDate = function (dateStr) {
   return `${year}-${month}-${date} ${hour}:${minutes}`;
 };
 
+export const formatDate = function (dateStr) {
+  // input: ISO
+  const d = new Date(dateStr);
+
+  return new Intl.DateTimeFormat("ko-KR", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+    hour12: "true",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(d);
+};
+
 export const getUniqueDates = function (dateArr, subType) {
   const uniqueDates = Array.from(
     new Set(dateArr.map((date) => date.slice(0, 10)))
