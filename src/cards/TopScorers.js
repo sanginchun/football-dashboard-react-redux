@@ -9,6 +9,7 @@ import PlayerDetail from "../features/players/PlayerDetail";
 
 const style = {
   root: { height: "300px", overflowY: "auto" },
+  playerName: { cursor: "pointer" },
   goalsOverall: {
     borderLeft: "1px solid rgba(34, 36, 38, 0.1)",
   },
@@ -68,16 +69,8 @@ function TopScorers() {
                 playerId={p.player.player_id}
                 teamName={p.team.team_name}
                 trigger={
-                  <Table.Cell>
-                    <a
-                      href="/playerInfo"
-                      style={{ color: "inherit" }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      {p.player.player_name}
-                    </a>
+                  <Table.Cell style={style.playerName}>
+                    {p.player.player_name}
                   </Table.Cell>
                 }
               />
