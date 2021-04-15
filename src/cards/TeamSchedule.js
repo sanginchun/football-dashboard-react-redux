@@ -7,11 +7,13 @@ import { useSelector } from "react-redux";
 import { selectMatchesUpcomingByTeam } from "../features/matches/matchesSlice";
 import { selectTeamById } from "../features/teams/teamsSlice";
 
-import TeamScheduleDetail from "../features/teams/TeamScheduleDetail";
+import Opponent from "../features/teams/Opponent";
+import { formatDate } from "../helper";
 
 const style = {
   root: { height: "300px", overflowY: "auto" },
   tableHeaderCell: { position: "sticky", top: "0" },
+  venue: { fontSize: "90%" },
 };
 
 const config = {
@@ -44,7 +46,15 @@ function TeamSchedule() {
 
   const renderedBody = matches.map((match) => (
     <Table.Row key={match.match_id}>
-      <TeamScheduleDetail match={match} team={currentTeam} />
+      <Table.Cell width={11}>
+        {formatDate(match.match_start_iso)}
+        <br />
+        <small
+          children={`@ ${match.venue?.name || "TBD"}`}
+          style={style.venue}
+        />
+      </Table.Cell>
+      <Opponent match={match} team={currentTeam} code={true} />
     </Table.Row>
   ));
 

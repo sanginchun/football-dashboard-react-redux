@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { selectLeagueById } from "../features/leagues/leaguesSlice";
 import PlayerDetail from "../features/players/PlayerDetail";
 
+import { MAX_TOP_SCORERS } from "../config";
+
 const style = {
   root: { height: "300px", overflowY: "auto" },
   playerName: { cursor: "pointer" },
@@ -62,7 +64,7 @@ function TopScorers() {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {topScorers.slice(0, 10).map((p) => (
+          {topScorers.slice(0, MAX_TOP_SCORERS).map((p) => (
             <Table.Row key={p.player.player_id}>
               <Table.Cell>{p.pos}</Table.Cell>
               <PlayerDetail

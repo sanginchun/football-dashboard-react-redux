@@ -23,7 +23,7 @@ export const fetchMatches = createAsyncThunk(
   "matches/fetchMatches",
   async (leagueId, { getState }) => {
     const seasonId = getState().leagues.entities[leagueId].seasonId;
-    const dateRange = DATE_RANGE.MONTH;
+    const dateRange = DATE_RANGE.MONTH + DATE_RANGE.WEEK;
 
     const dateFrom = new Date(Date.now() - dateRange)
       .toISOString()

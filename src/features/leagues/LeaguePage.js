@@ -51,7 +51,7 @@ function LeaguePage() {
       {league ? (
         <LeagueDetail leagueId={league.league_id} header={true} />
       ) : (
-        <Loader active={true} />
+        <Loader active={true} inline={true} />
       )}
     </PageHeader>
   );

@@ -7,6 +7,7 @@ import TopScorers from "./TopScorers";
 
 import TeamStandings from "./TeamStandings";
 import TeamSchedule from "./TeamSchedule";
+import TeamForm from "./TeamForm";
 
 const propTypes = { type: PropTypes.string.isRequired };
 
@@ -51,6 +52,11 @@ const cardConfig = {
     width: 8,
     title: "Upcoming",
     Content: TeamSchedule,
+  },
+  teamForm: {
+    width: 16,
+    title: "Form",
+    Content: TeamForm,
   },
 };
 

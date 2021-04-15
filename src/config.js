@@ -7,3 +7,7 @@ export const DATE_RANGE = {
   WEEK: 1000 * 60 * 60 * 24 * 7,
   MONTH: 1000 * 60 * 60 * 24 * 30,
 };
+
+export const MAX_TOP_SCORERS = 10;
+
+export const MAX_TEAM_FORM_MATCHES = 5;

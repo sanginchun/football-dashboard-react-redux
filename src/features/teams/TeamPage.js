@@ -34,7 +34,7 @@ function TeamPage() {
       {team ? (
         <TeamDetail teamId={team.team_id} header={true} />
       ) : (
-        <Loader active={true} />
+        <Loader active={true} inline={true} />
       )}
     </PageHeader>
   );
@@ -45,7 +45,7 @@ function TeamPage() {
       <Grid>
         <ContentCard type="teamStandings" />
         <ContentCard type="teamSchedule" />
-        {/* <ContentCard type="teamForm" /> */}
+        <ContentCard type="teamForm" />
       </Grid>
     </div>
   );

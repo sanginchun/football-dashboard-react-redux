@@ -5,7 +5,6 @@ const style = {
     padding: "1.5rem 0",
     borderBottom: "1px solid whitesmoke",
     marginBottom: "2rem",
-    position: "relative",
   },
 };
 
