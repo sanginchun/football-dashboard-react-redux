@@ -65,9 +65,7 @@ function TeamStandings() {
             children={<TeamDetail teamId={team.team_id} code={true} />}
           />
           <Table.Cell width={2}>{team.points}</Table.Cell>
-          <Table.Cell width={2} positive={diff < 0} negative={diff > 0}>
-            {diff > 0 ? `+${diff}` : `${diff}`}
-          </Table.Cell>
+          <Table.Cell width={2}>{diff > 0 ? `+${diff}` : `${diff}`}</Table.Cell>
           <Table.Cell width={2}>{team.overall.games_played}</Table.Cell>
           <Table.Cell width={1}>{team.overall.won}</Table.Cell>
           <Table.Cell width={1}>{team.overall.draw}</Table.Cell>
