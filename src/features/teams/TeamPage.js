@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Grid } from "semantic-ui-react";
+import { Grid, Loader } from "semantic-ui-react";
 
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { fetchMatches } from "../matches/matchesSlice";
 import PageHeader from "../../app/PageHeader";
 import ContentCard from "../../cards/ContentCard";
 import { selectTeamById } from "./teamsSlice";
+import TeamDetail from "./TeamDetail";
 
 function TeamPage() {
   const dispatch = useDispatch();
@@ -28,7 +29,15 @@ function TeamPage() {
     }
   }, [dispatch, league, leagueMatchStatus, matchesStatus]);
 
-  const renderedHeader = <PageHeader headerText={team ? team.name : ""} />;
+  const renderedHeader = (
+    <PageHeader>
+      {team ? (
+        <TeamDetail teamId={team.team_id} header={true} />
+      ) : (
+        <Loader active={true} />
+      )}
+    </PageHeader>
+  );
 
   return (
     <div>

@@ -10,6 +10,7 @@ import { fetchTopScorers } from "../leagues/leaguesSlice";
 
 import PageHeader from "../../app/PageHeader";
 import ContentCard from "../../cards/ContentCard";
+import LeagueDetail from "./LeagueDetail";
 
 function LeaguePage() {
   const dispatch = useDispatch();
@@ -45,10 +46,14 @@ function LeaguePage() {
     }
   }, [dispatch, league, topScorersStatus]);
 
-  const renderedHeader = league ? (
-    <PageHeader headerText={league.name} />
-  ) : (
-    <Loader active={true} />
+  const renderedHeader = (
+    <PageHeader>
+      {league ? (
+        <LeagueDetail leagueId={league.league_id} header={true} />
+      ) : (
+        <Loader active={true} />
+      )}
+    </PageHeader>
   );
 
   return (
