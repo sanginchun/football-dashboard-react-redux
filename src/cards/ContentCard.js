@@ -11,7 +11,12 @@ import TeamStandings from "./TeamStandings";
 import TeamSchedule from "./TeamSchedule";
 import TeamForm from "./TeamForm";
 
-import { ADD, REMOVE, customsUpdated } from "../features/customs/customsSlice";
+import {
+  ADD,
+  REMOVE,
+  customsUpdated,
+  cardSelectionToggled,
+} from "../features/customs/customsSlice";
 import { getCardKey } from "../helper";
 import TeamDetail from "../features/teams/TeamDetail";
 import LeagueDetail from "../features/leagues/LeagueDetail";
@@ -31,12 +36,24 @@ const style = {
   headerDetail: {
     marginLeft: "auto",
     marginRight: "1rem",
-    fontSize: "80%",
+    fontWeight: "600",
+  },
+  editModeCheckbox: {
+    float: "right",
+    marginLeft: "1rem",
   },
   toggleButton: { marginLeft: "auto" },
   cardDescription: {
     marginTop: "1.2rem",
     overflowY: "hidden",
+  },
+  editMode: {
+    opacity: "0.5",
+    pointerEvents: "none",
+  },
+  editModeSelected: {
+    opacity: "1",
+    pointerEvents: "none",
   },
 };
 
@@ -83,7 +100,13 @@ const cardConfig = {
 function ContentCard({ type, leagueId, teamId, isCustom }) {
   const dispatch = useDispatch();
   const cardKey = getCardKey(leagueId, teamId, type);
-  const isChecked = useSelector((state) => state.customs.includes(cardKey));
+  const isChecked = useSelector((state) =>
+    state.customs.data.includes(cardKey)
+  );
+  const isEditMode = useSelector((state) => state.customs.editMode);
+  const isSelected = useSelector((state) =>
+    state.customs.selected.includes(cardKey)
+  );
 
   const { width, title, subType, Content } = cardConfig[type];
 
@@ -118,17 +141,44 @@ function ContentCard({ type, leagueId, teamId, isCustom }) {
     />
   );
 
+  const editModeCheckbox = isEditMode ? (
+    <Checkbox
+      checked={isSelected}
+      style={style.editModeCheckbox}
+      onChange={(e) => {
+        e.preventDefault();
+        dispatch(
+          cardSelectionToggled({
+            type: isSelected ? REMOVE : ADD,
+            key: cardKey,
+          })
+        );
+      }}
+    />
+  ) : null;
+
   return (
     <Grid.Column width={width}>
       <Card fluid={true} style={style.card}>
         <Card.Content>
-          <Card.Header style={style.cardHeader}>
-            <h3>{title}</h3>
-            {renderedHeader}
-          </Card.Header>
-          <Card.Description style={style.cardDescription}>
-            <Content subType={subType} leagueId={leagueId} teamId={teamId} />
-          </Card.Description>
+          {editModeCheckbox}
+          <div
+            style={
+              isEditMode
+                ? isSelected
+                  ? style.editModeSelected
+                  : style.editMode
+                : null
+            }
+          >
+            <Card.Header style={style.cardHeader}>
+              <h3>{title}</h3>
+              {renderedHeader}
+            </Card.Header>
+            <Card.Description style={style.cardDescription}>
+              <Content subType={subType} leagueId={leagueId} teamId={teamId} />
+            </Card.Description>
+          </div>
         </Card.Content>
       </Card>
     </Grid.Column>

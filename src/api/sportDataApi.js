@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const API_HOST = `https://app.sportdataapi.com/api/v1/soccer`;
-const API_KEY = `7548f260-66c2-11eb-8cf1-cfec162038ad`;
-// const API_KEY = `b7378ec0-6644-11eb-aa1d-d5b666f6a0bb`;
+// const API_KEY = `7548f260-66c2-11eb-8cf1-cfec162038ad`;
+const API_KEY = `b7378ec0-6644-11eb-aa1d-d5b666f6a0bb`;
 
 class sportDataApi {
   constructor() {

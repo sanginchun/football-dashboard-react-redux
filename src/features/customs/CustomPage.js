@@ -5,9 +5,10 @@ import { useSelector } from "react-redux";
 
 import PageHeader from "../../app/PageHeader";
 import ContentCard from "../../cards/ContentCard";
+import CustomHeader from "./CustomHeader";
 
 function CustomPage() {
-  const customs = useSelector((state) => state.customs);
+  const customs = useSelector((state) => state.customs.data);
   const teamsStatus = useSelector((state) => state.teams.status);
 
   const renderedBody =
@@ -15,7 +16,6 @@ function CustomPage() {
       <Grid>
         {customs.map((cardKey) => {
           const [leagueId, teamId, type] = cardKey.split("-");
-          console.log(leagueId, teamId, type);
           return (
             <ContentCard
               key={cardKey}
@@ -38,6 +38,7 @@ function CustomPage() {
       <PageHeader>
         <h2>Custom</h2>
       </PageHeader>
+      <CustomHeader />
       {renderedBody}
     </div>
   );

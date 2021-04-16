@@ -4,7 +4,7 @@ const style = {
   root: {
     padding: "1.5rem 0",
     borderBottom: "1px solid whitesmoke",
-    marginBottom: "2rem",
+    marginBottom: "1rem",
   },
 };
 
