@@ -6,6 +6,7 @@ import MainNav from "./app/MainNav";
 import MainDisplay from "./app/MainDisplay";
 import LeaguePage from "./features/leagues/LeaguePage";
 import TeamPage from "./features/teams/TeamPage";
+import CustomPage from "./features/customs/CustomPage";
 
 const style = { position: "relative" };
 
@@ -19,6 +20,7 @@ function App() {
         </Sidebar>
         <MainDisplay>
           <Switch>
+            <Route exact path="/custom" render={() => <CustomPage />} />
             <Route
               exact
               path="/league/:leagueId"

@@ -39,3 +39,7 @@ export const getUniqueDates = function (dateArr, subType) {
 
   return uniqueDates;
 };
+
+export const getCardKey = function (leagueId, teamId, type) {
+  return `${leagueId}-${teamId ? teamId : ""}-${type}`;
+};

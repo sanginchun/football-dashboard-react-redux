@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, Grid } from "semantic-ui-react";
+import { Card, Grid, Popup, Checkbox } from "semantic-ui-react";
+import { useDispatch, useSelector } from "react-redux";
+
 import Standings from "./Standings";
 import Matches from "./Matches";
 import TopScorers from "./TopScorers";
@@ -9,15 +11,29 @@ import TeamStandings from "./TeamStandings";
 import TeamSchedule from "./TeamSchedule";
 import TeamForm from "./TeamForm";
 
+import { ADD, REMOVE, customsUpdated } from "../features/customs/customsSlice";
+import { getCardKey } from "../helper";
+import TeamDetail from "../features/teams/TeamDetail";
+import LeagueDetail from "../features/leagues/LeagueDetail";
+
 const propTypes = {
   type: PropTypes.string.isRequired,
   leagueId: PropTypes.number.isRequired,
   teamId: PropTypes.number,
+  isCustom: PropTypes.bool,
 };
+
+const defaultProps = { isCustom: false };
 
 const style = {
   card: { minHeight: "280px" },
   cardHeader: { display: "flex" },
+  headerDetail: {
+    marginLeft: "auto",
+    marginRight: "1rem",
+    fontSize: "80%",
+  },
+  toggleButton: { marginLeft: "auto" },
   cardDescription: {
     marginTop: "1.2rem",
     overflowY: "hidden",
@@ -64,8 +80,43 @@ const cardConfig = {
   },
 };
 
-function ContentCard({ type, leagueId, teamId }) {
+function ContentCard({ type, leagueId, teamId, isCustom }) {
+  const dispatch = useDispatch();
+  const cardKey = getCardKey(leagueId, teamId, type);
+  const isChecked = useSelector((state) => state.customs.includes(cardKey));
+
   const { width, title, subType, Content } = cardConfig[type];
+
+  const renderedHeader = isCustom ? (
+    <div style={style.headerDetail}>
+      {teamId ? (
+        <TeamDetail teamId={teamId} />
+      ) : (
+        <LeagueDetail leagueId={leagueId} />
+      )}
+    </div>
+  ) : (
+    <Popup
+      content={isChecked ? "Remove from custom page" : "Add to custom page"}
+      size="small"
+      trigger={
+        <Checkbox
+          checked={isChecked}
+          style={style.toggleButton}
+          toggle={true}
+          onClick={(e) => {
+            e.preventDefault();
+            dispatch(
+              customsUpdated({
+                type: isChecked ? REMOVE : ADD,
+                key: cardKey,
+              })
+            );
+          }}
+        />
+      }
+    />
+  );
 
   return (
     <Grid.Column width={width}>
@@ -73,6 +124,7 @@ function ContentCard({ type, leagueId, teamId }) {
         <Card.Content>
           <Card.Header style={style.cardHeader}>
             <h3>{title}</h3>
+            {renderedHeader}
           </Card.Header>
           <Card.Description style={style.cardDescription}>
             <Content subType={subType} leagueId={leagueId} teamId={teamId} />
@@ -84,5 +136,6 @@ function ContentCard({ type, leagueId, teamId }) {
 }
 
 ContentCard.propTypes = propTypes;
+ContentCard.defaultProps = defaultProps;
 
 export default ContentCard;

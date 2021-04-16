@@ -31,6 +31,7 @@ function TeamStandings({ leagueId, teamId }) {
   useEffect(() => {
     if (currentTeam) {
       currentTeamRef.current.scrollIntoView({ block: "center" });
+      window.scroll(0, 0);
     }
   }, [currentTeam]);
 
