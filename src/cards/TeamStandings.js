@@ -1,13 +1,16 @@
 import React, { useEffect, useRef } from "react";
-import { Placeholder, Table, Ref } from "semantic-ui-react";
-
-import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Table, Ref } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 
-import { selectLeagueById } from "../features/leagues/leaguesSlice";
 import { selectTeamById } from "../features/teams/teamsSlice";
-
 import TeamDetail from "../features/teams/TeamDetail";
+import { selectLeagueById } from "../features/leagues/leaguesSlice";
+
+const propTypes = {
+  leagueId: PropTypes.number.isRequired,
+  teamId: PropTypes.number.isRequired,
+};
 
 const style = {
   root: { maxHeight: "300px", overflowY: "auto" },
@@ -20,10 +23,9 @@ const config = {
   tableHeader: ["#", "Team", "Points", "Diff", "Played", "W", "D", "L"],
 };
 
-function TeamStandings() {
-  const { leagueId, teamId } = useParams();
-  const league = useSelector((state) => selectLeagueById(state, +leagueId));
-  const currentTeam = useSelector((state) => selectTeamById(state, +teamId));
+function TeamStandings({ leagueId, teamId }) {
+  const league = useSelector((state) => selectLeagueById(state, leagueId));
+  const currentTeam = useSelector((state) => selectTeamById(state, teamId));
   const currentTeamRef = useRef(null);
 
   useEffect(() => {
@@ -31,15 +33,6 @@ function TeamStandings() {
       currentTeamRef.current.scrollIntoView({ block: "center" });
     }
   }, [currentTeam]);
-
-  if (!league?.standings || !currentTeam)
-    return (
-      <Placeholder fluid={true}>
-        {Array.from({ length: config.placeholderLines }, (_, i) => (
-          <Placeholder.Line key={i} />
-        ))}
-      </Placeholder>
-    );
 
   const [currentTeamStanding] = league.standings.filter(
     (team) => team.team_id === currentTeam.team_id
@@ -86,5 +79,7 @@ function TeamStandings() {
     </div>
   );
 }
+
+TeamStandings.propTypes = propTypes;
 
 export default TeamStandings;

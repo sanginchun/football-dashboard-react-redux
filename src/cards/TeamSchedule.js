@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import { Placeholder, Table } from "semantic-ui-react";
 
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { selectMatchesUpcomingByTeam } from "../features/matches/matchesSlice";
+import {
+  fetchMatches,
+  selectMatchesUpcomingByTeam,
+} from "../features/matches/matchesSlice";
 import { selectTeamById } from "../features/teams/teamsSlice";
 
 import Opponent from "../features/teams/Opponent";
 import { formatDate } from "../helper";
+
+const propTypes = {
+  leagueId: PropTypes.number.isRequired,
+  teamId: PropTypes.number.isRequired,
+};
 
 const style = {
   root: { height: "300px", overflowY: "auto" },
@@ -21,12 +29,21 @@ const config = {
   tableHeader: ["Schedule", "Opponent"],
 };
 
-function TeamSchedule() {
-  const { teamId } = useParams();
+function TeamSchedule({ leagueId, teamId }) {
+  const dispatch = useDispatch();
   const currentTeam = useSelector((state) => selectTeamById(state, teamId));
   const matches = useSelector((state) =>
     selectMatchesUpcomingByTeam(state, currentTeam?.name)
   );
+  const leagueMatchesUpdated = useSelector(
+    (state) => state.matches.updated[leagueId]
+  );
+
+  useEffect(() => {
+    if (!leagueMatchesUpdated) {
+      dispatch(fetchMatches(leagueId));
+    }
+  }, [dispatch, leagueMatchesUpdated, leagueId]);
 
   if (!matches.length || !currentTeam) {
     return (
@@ -69,5 +86,7 @@ function TeamSchedule() {
     </div>
   );
 }
+
+TeamSchedule.propTypes = propTypes;
 
 export default TeamSchedule;

@@ -1,11 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Grid, Loader } from "semantic-ui-react";
 
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-
-import { selectLeagueById } from "../leagues/leaguesSlice";
-import { fetchMatches } from "../matches/matchesSlice";
+import { useSelector } from "react-redux";
 
 import PageHeader from "../../app/PageHeader";
 import ContentCard from "../../cards/ContentCard";
@@ -13,21 +10,8 @@ import { selectTeamById } from "./teamsSlice";
 import TeamDetail from "./TeamDetail";
 
 function TeamPage() {
-  const dispatch = useDispatch();
   const { leagueId, teamId } = useParams();
-  const league = useSelector((state) => selectLeagueById(state, +leagueId));
   const team = useSelector((state) => selectTeamById(state, +teamId));
-
-  const leagueMatchStatus = useSelector(
-    (state) => state.matches.leaguesUpdated[+leagueId]
-  );
-  const matchesStatus = useSelector((state) => state.matches.status);
-
-  useEffect(() => {
-    if (league?.seasonId && !leagueMatchStatus && matchesStatus !== "loading") {
-      dispatch(fetchMatches(league.league_id));
-    }
-  }, [dispatch, league, leagueMatchStatus, matchesStatus]);
 
   const renderedHeader = (
     <PageHeader>
@@ -39,14 +23,22 @@ function TeamPage() {
     </PageHeader>
   );
 
+  const renderedBody = team ? (
+    <Grid>
+      <ContentCard type="teamStandings" leagueId={+leagueId} teamId={+teamId} />
+      <ContentCard type="teamSchedule" leagueId={+leagueId} teamId={+teamId} />
+      <ContentCard type="teamForm" leagueId={+leagueId} teamId={+teamId} />
+    </Grid>
+  ) : (
+    <Loader active={true} size="large">
+      Loading
+    </Loader>
+  );
+
   return (
     <div>
       {renderedHeader}
-      <Grid>
-        <ContentCard type="teamStandings" />
-        <ContentCard type="teamSchedule" />
-        <ContentCard type="teamForm" />
-      </Grid>
+      {renderedBody}
     </div>
   );
 }

@@ -12,6 +12,7 @@ import TeamForm from "./TeamForm";
 const propTypes = {
   type: PropTypes.string.isRequired,
   leagueId: PropTypes.number.isRequired,
+  teamId: PropTypes.number,
 };
 
 const style = {
@@ -63,7 +64,7 @@ const cardConfig = {
   },
 };
 
-function ContentCard({ type, leagueId }) {
+function ContentCard({ type, leagueId, teamId }) {
   const { width, title, subType, Content } = cardConfig[type];
 
   return (
@@ -74,7 +75,7 @@ function ContentCard({ type, leagueId }) {
             <h3>{title}</h3>
           </Card.Header>
           <Card.Description style={style.cardDescription}>
-            <Content subType={subType} leagueId={leagueId} />
+            <Content subType={subType} leagueId={leagueId} teamId={teamId} />
           </Card.Description>
         </Card.Content>
       </Card>

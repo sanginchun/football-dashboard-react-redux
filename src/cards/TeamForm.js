@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import { Placeholder, Table } from "semantic-ui-react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-
-import { selectMatchesFinishedByTeam } from "../features/matches/matchesSlice";
+import {
+  fetchMatches,
+  selectMatchesFinishedByTeam,
+} from "../features/matches/matchesSlice";
 import { selectTeamById } from "../features/teams/teamsSlice";
 
 import Opponent from "../features/teams/Opponent";
 import TeamFormScore from "../features/teams/TeamFormScore";
-
 import { MAX_TEAM_FORM_MATCHES } from "../config";
+
+const propTypes = {
+  leagueId: PropTypes.number.isRequired,
+  teamId: PropTypes.number.isRequired,
+};
 
 const style = {
   root: { overflowY: "auto" },
@@ -21,12 +27,21 @@ const config = {
   placeholderLines: 10,
 };
 
-function TeamForm() {
-  const { teamId } = useParams();
+function TeamForm({ leagueId, teamId }) {
+  const dispatch = useDispatch();
   const currentTeam = useSelector((state) => selectTeamById(state, teamId));
   const matches = useSelector((state) =>
     selectMatchesFinishedByTeam(state, currentTeam?.name)
   );
+  const leagueMatchesUpdated = useSelector(
+    (state) => state.matches.updated[leagueId]
+  );
+
+  useEffect(() => {
+    if (!leagueMatchesUpdated) {
+      dispatch(fetchMatches(leagueId));
+    }
+  }, [dispatch, leagueMatchesUpdated, leagueId]);
 
   if (!matches.length || !currentTeam) {
     return (
@@ -79,5 +94,7 @@ function TeamForm() {
     </div>
   );
 }
+
+TeamForm.propTypes = propTypes;
 
 export default TeamForm;
