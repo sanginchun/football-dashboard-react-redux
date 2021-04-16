@@ -12,7 +12,6 @@ const leaguesAdapter = createEntityAdapter({
 
 const initialState = leaguesAdapter.getInitialState({
   status: "idle",
-  topScorersStatus: "idle",
   error: null,
 });
 
@@ -36,17 +35,6 @@ export const fetchLeagues = createAsyncThunk(
   }
 );
 
-export const fetchTopScorers = createAsyncThunk(
-  "leagues/fetchTopScorers",
-  async ({ leagueId, seasonId }) => {
-    const topScorers = await sportDataApi.get("/topscorers", {
-      params: { season_id: seasonId },
-    });
-
-    return { leagueId, topScorers };
-  }
-);
-
 const leaguesSlice = createSlice({
   name: "leagues",
   initialState,
@@ -67,18 +55,6 @@ const leaguesSlice = createSlice({
     },
     [fetchLeagues.rejected]: (state, action) => {
       state.status = "failed";
-      state.error = action.error.message;
-    },
-    [fetchTopScorers.pending]: (state, action) => {
-      state.topScorersStatus = "loading";
-    },
-    [fetchTopScorers.fulfilled]: (state, action) => {
-      const { leagueId, topScorers } = action.payload;
-      state.entities[leagueId].topScorers = topScorers;
-      state.topScorersStatus = "succeeded";
-    },
-    [fetchTopScorers.rejected]: (state, action) => {
-      state.topScorersStatus = "failed";
       state.error = action.error.message;
     },
   },

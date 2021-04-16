@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+
 import { Placeholder, Table } from "semantic-ui-react";
 
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import MatchDetail from "../features/matches/MatchDetail";
 import {
+  fetchMatches,
   selectMatchesFinished,
   selectMatchesUpcoming,
 } from "../features/matches/matchesSlice";
 import DatePicker from "../app/DatePicker";
 import { getUniqueDates } from "../helper";
+
+const propTypes = {
+  subType: PropTypes.string.isRequired,
+  leagueId: PropTypes.number.isRequired,
+};
 
 const style = {
   root: { height: "260px", overflowY: "auto" },
@@ -30,16 +37,25 @@ const config = {
   },
 };
 
-function Matches({ subType }) {
-  const { leagueId } = useParams();
+function Matches({ subType, leagueId }) {
+  const dispatch = useDispatch();
   const matches = useSelector((state) =>
-    config[subType].selector(state, +leagueId)
+    config[subType].selector(state, leagueId)
   );
-  const teamsStatus = useSelector((state) => state.teams.status);
 
-  // date
+  const leagueMatchesUpdated = useSelector(
+    (state) => state.matches.updated[leagueId]
+  );
   const [date, setDate] = useState("");
 
+  // fetch
+  useEffect(() => {
+    if (!leagueMatchesUpdated) {
+      dispatch(fetchMatches(leagueId));
+    }
+  }, [dispatch, leagueMatchesUpdated, leagueId]);
+
+  // when loaded
   useEffect(() => {
     if (matches.length) {
       setDate(
@@ -51,8 +67,7 @@ function Matches({ subType }) {
     }
   }, [matches, subType]);
 
-  // if match not loaded or team not loaded
-  if (!matches.length || teamsStatus === "loading") {
+  if (!matches.length) {
     return (
       <Placeholder fluid={true}>
         {Array.from({ length: config[subType].placeholderLines }, (_, i) => (
@@ -107,5 +122,7 @@ function Matches({ subType }) {
     </React.Fragment>
   );
 }
+
+Matches.propTypes = propTypes;
 
 export default Matches;

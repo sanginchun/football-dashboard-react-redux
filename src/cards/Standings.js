@@ -1,11 +1,13 @@
 import React from "react";
-import { Placeholder, Table } from "semantic-ui-react";
+import PropTypes from "prop-types";
+import { Table } from "semantic-ui-react";
 
-import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { selectLeagueById } from "../features/leagues/leaguesSlice";
 import TeamDetail from "../features/teams/TeamDetail";
+
+const propTypes = { leagueId: PropTypes.number.isRequired };
 
 const style = {
   root: { maxHeight: "300px", overflowY: "auto" },
@@ -28,19 +30,8 @@ const config = {
   ],
 };
 
-function Standings() {
-  const { leagueId } = useParams();
+function Standings({ leagueId }) {
   const league = useSelector((state) => selectLeagueById(state, +leagueId));
-  const teamsStatus = useSelector((state) => state.teams.status);
-
-  if (!league?.standings || teamsStatus === "loading")
-    return (
-      <Placeholder fluid={true}>
-        {Array.from({ length: config.placeholderLines }, (_, i) => (
-          <Placeholder.Line key={i} />
-        ))}
-      </Placeholder>
-    );
 
   const renderedHeader = config.tableHeader.map((text, i) => (
     <Table.HeaderCell key={i} style={style.tableHeaderCell}>
@@ -74,5 +65,7 @@ function Standings() {
     </div>
   );
 }
+
+Standings.propTypes = propTypes;
 
 export default Standings;

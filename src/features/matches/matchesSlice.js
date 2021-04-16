@@ -16,7 +16,8 @@ const matchesAdapter = createEntityAdapter({
 const initialState = matchesAdapter.getInitialState({
   status: "idle",
   error: null,
-  leaguesUpdated: {},
+  requested: {},
+  updated: {},
 });
 
 export const fetchMatches = createAsyncThunk(
@@ -40,6 +41,12 @@ export const fetchMatches = createAsyncThunk(
     );
 
     return { leagueId, matches };
+  },
+  {
+    condition: (leagueId, { getState }) => {
+      const requestedLeague = getState().matches.requested[leagueId];
+      if (requestedLeague) return false;
+    },
   }
 );
 
@@ -49,12 +56,14 @@ const matchesSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchMatches.pending]: (state, action) => {
+      const leagueId = action.meta.arg;
       state.status = "loading";
+      state.requested[leagueId] = true;
     },
     [fetchMatches.fulfilled]: (state, action) => {
       const { leagueId, matches } = action.payload;
       state.status = "succeeded";
-      state.leaguesUpdated[leagueId] = true;
+      state.updated[leagueId] = true;
       matchesAdapter.addMany(state, matches);
     },
     [fetchMatches.rejected]: (state, action) => {

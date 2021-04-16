@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import { Placeholder, Table } from "semantic-ui-react";
 
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { selectLeagueById } from "../features/leagues/leaguesSlice";
 import PlayerDetail from "../features/players/PlayerDetail";
 
 import { MAX_TOP_SCORERS } from "../config";
+import { fetchTopScorers } from "../features/topScorers/topScorersSlice";
+
+const propTypes = {
+  leagueId: PropTypes.number.isRequired,
+};
 
 const style = {
   root: { height: "300px", overflowY: "auto" },
@@ -21,10 +25,15 @@ const config = {
   placeholderLines: 13,
 };
 
-function TopScorers() {
-  const { leagueId } = useParams();
-  const league = useSelector((state) => selectLeagueById(state, +leagueId));
-  const topScorers = league?.topScorers;
+function TopScorers({ leagueId }) {
+  const dispatch = useDispatch();
+  const topScorers = useSelector(
+    (state) => state.topScorers[leagueId].topScorers
+  );
+
+  useEffect(() => {
+    if (!topScorers) dispatch(fetchTopScorers(leagueId));
+  }, [dispatch, topScorers, leagueId]);
 
   if (!topScorers)
     return (
@@ -93,5 +102,7 @@ function TopScorers() {
     </div>
   );
 }
+
+TopScorers.propTypes = propTypes;
 
 export default TopScorers;

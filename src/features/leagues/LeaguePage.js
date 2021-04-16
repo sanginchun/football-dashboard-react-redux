@@ -13,6 +13,7 @@ import LeagueDetail from "./LeagueDetail";
 function LeaguePage() {
   const { leagueId } = useParams();
   const league = useSelector((state) => selectLeagueById(state, +leagueId));
+  const teamsStatus = useSelector((state) => state.teams.status);
 
   const renderedHeader = (
     <PageHeader>
@@ -24,15 +25,24 @@ function LeaguePage() {
     </PageHeader>
   );
 
+  const renderedBody =
+    teamsStatus === "succeeded" ? (
+      <Grid>
+        <ContentCard type="standings" leagueId={+leagueId} />
+        <ContentCard type="matchResult" leagueId={+leagueId} />
+        <ContentCard type="matchUpcoming" leagueId={+leagueId} />
+        <ContentCard type="topScorers" leagueId={+leagueId} />
+      </Grid>
+    ) : (
+      <Loader active={true} size="large">
+        Loading
+      </Loader>
+    );
+
   return (
     <div>
       {renderedHeader}
-      <Grid>
-        {/* <ContentCard type="standings" leagueId={+leagueId} />
-        <ContentCard type="matchResult" leagueId={+leagueId} />
-        <ContentCard type="matchUpcoming" leagueId={+leagueId} />
-        <ContentCard type="topScorers" leagueId={+leagueId} /> */}
-      </Grid>
+      {renderedBody}
     </div>
   );
 }
