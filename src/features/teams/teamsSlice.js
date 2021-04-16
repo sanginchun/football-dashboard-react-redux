@@ -5,8 +5,9 @@ import {
   createSelector,
 } from "@reduxjs/toolkit";
 import sportDataApi from "../../api/sportDataApi";
+import { LEAGUE_IDS } from "../../config";
 import { formatTeamName } from "../../helper";
-import { seasonIdUpdated, standingsUpdated } from "../leagues/leaguesSlice";
+import { standingsUpdated } from "../leagues/leaguesSlice";
 
 const teamsAdapter = createEntityAdapter({
   selectId: (entity) => entity.team_id,
@@ -20,27 +21,55 @@ const initialState = teamsAdapter.getInitialState({
 
 export const fetchTeams = createAsyncThunk(
   "teams/fetchTeams",
-  async (leagueId, { dispatch }) => {
-    const seasons = await sportDataApi.get("/seasons", {
-      params: { league_id: leagueId },
-    });
-
-    const [currentSeason] = seasons.filter((season) => season.is_current);
-    dispatch(seasonIdUpdated({ leagueId, seasonId: currentSeason.season_id }));
-
-    const { standings } = await sportDataApi.get("/standings", {
-      params: { season_id: currentSeason.season_id },
-    });
-    dispatch(standingsUpdated({ leagueId, standings }));
-
-    const teams = await Promise.all(
-      standings.map((team) => sportDataApi.get(`/teams/${team.team_id}`))
+  async (_, { dispatch }) => {
+    const seasonsArr = await Promise.all(
+      LEAGUE_IDS.map((leagueId) =>
+        sportDataApi.get("/seasons", {
+          params: { league_id: leagueId },
+        })
+      )
     );
 
-    // format team name, add league id
-    teams.forEach((team) => {
+    const currentSeasonIds = [];
+    seasonsArr.forEach((seasons, i) => {
+      const [currentSeason] = seasons.filter((season) => season.is_current);
+      currentSeasonIds[i] = currentSeason.season_id;
+    });
+
+    const standingsArr = await Promise.all(
+      currentSeasonIds.map((seasonId) =>
+        sportDataApi.get("/standings", { params: { season_id: seasonId } })
+      )
+    );
+
+    standingsArr.forEach((standingsData, i) => {
+      const leagueId = LEAGUE_IDS[i];
+      const { season_id, standings } = standingsData;
+      dispatch(standingsUpdated({ leagueId, season_id, standings }));
+    });
+
+    const teamIds = [];
+
+    standingsArr.forEach((standingsData, i) => {
+      const leagueId = LEAGUE_IDS[i];
+      const { standings } = standingsData;
+
+      teamIds.push(
+        ...standings.map((team) => ({
+          team_id: team.team_id,
+          league_id: leagueId,
+        }))
+      );
+    });
+
+    const teams = await Promise.all(
+      teamIds.map(({ team_id }) => sportDataApi.get(`/teams/${team_id}`))
+    );
+
+    // format team name, add leagueId
+    teams.forEach((team, i) => {
       team.name = formatTeamName(team.name);
-      team["league_id"] = leagueId;
+      team.league_id = teamIds[i].league_id;
     });
 
     return teams;

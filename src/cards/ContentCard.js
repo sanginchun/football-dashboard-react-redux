@@ -8,6 +8,8 @@ import TopScorers from "./TopScorers";
 import TeamStandings from "./TeamStandings";
 import TeamSchedule from "./TeamSchedule";
 import TeamForm from "./TeamForm";
+import { useSelector } from "react-redux";
+import { selectLeagueById } from "../features/leagues/leaguesSlice";
 
 const propTypes = { type: PropTypes.string.isRequired };
 
@@ -60,8 +62,11 @@ const cardConfig = {
   },
 };
 
-function ContentCard({ type }) {
+function ContentCard({ type, leagueId }) {
   const { width, title, subType, Content } = cardConfig[type];
+
+  const league = useSelector((state) => selectLeagueById(state, leagueId));
+
   return (
     <Grid.Column width={width}>
       <Card fluid={true} style={style.card}>
@@ -70,7 +75,7 @@ function ContentCard({ type }) {
             <h3>{title}</h3>
           </Card.Header>
           <Card.Description style={style.cardDescription}>
-            <Content subType={subType} />
+            <Content subType={subType} leagueId={leagueId} />
           </Card.Description>
         </Card.Content>
       </Card>

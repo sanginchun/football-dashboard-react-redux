@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Route, Link, Switch } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Menu, Loader, Dropdown } from "semantic-ui-react";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ const style = {
 function MainNav() {
   const dispatch = useDispatch();
   const leaguesIds = useSelector(selectLeagueIds);
+  const [currentLeagueId, setCurrentLeagueId] = useState(null);
 
   // status
   const leaguesStatus = useSelector((state) => state.leagues.status);
@@ -32,9 +33,15 @@ function MainNav() {
     if (leaguesStatus === "idle") dispatch(fetchLeagues());
   }, [leaguesStatus, dispatch]);
 
+  useEffect(() => {
+    if (teamsStatus === "succeeded") setCurrentLeagueId(leaguesIds[0]);
+  }, [teamsStatus, leaguesIds]);
+
   // rendered components
   const renderedLeagueMenu = leaguesIds.map((leagueId) => (
-    <LeagueDetail key={leagueId} leagueId={leagueId} />
+    <Dropdown.Item key={leagueId} onClick={() => setCurrentLeagueId(leagueId)}>
+      <LeagueDetail leagueId={leagueId} />
+    </Dropdown.Item>
   ));
 
   return (
@@ -57,10 +64,7 @@ function MainNav() {
           disabled={isLoading || teamsStatus !== "succeeded"}
         >
           <Dropdown.Menu style={style.teamMenu}>
-            <Switch>
-              <Route path="/league/:leagueId" render={() => <TeamMenu />} />
-              <Route render={() => <TeamMenu leagueId={leaguesIds[0]} />} />
-            </Switch>
+            <TeamMenu currentLeagueId={currentLeagueId} />
           </Dropdown.Menu>
         </Dropdown>
       </Menu>

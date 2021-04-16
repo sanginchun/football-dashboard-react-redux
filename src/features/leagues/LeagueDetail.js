@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Dropdown, Flag } from "semantic-ui-react";
+import { Flag } from "semantic-ui-react";
 
 import { selectLeagueById } from "./leaguesSlice";
 
@@ -22,7 +22,7 @@ function LeagueDetail({ leagueId, header }) {
   const league = useSelector((state) => selectLeagueById(state, leagueId));
 
   return (
-    <Dropdown.Item as={Link} to={`/league/${leagueId}`}>
+    <Link to={`/league/${leagueId}`}>
       <Flag name={league.countryName.toLowerCase()} />
       <div
         style={
@@ -31,7 +31,7 @@ function LeagueDetail({ leagueId, header }) {
       >
         {league.name}
       </div>
-    </Dropdown.Item>
+    </Link>
   );
 }
 
