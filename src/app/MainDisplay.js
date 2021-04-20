@@ -1,6 +1,6 @@
 import React from "react";
 // import PropTypes from "prop-types";
-import { SIDEBAR_WIDTH } from "../config";
+import { SIDEBAR_WIDTH } from "../others/config";
 
 const style = {
   position: "absolute",

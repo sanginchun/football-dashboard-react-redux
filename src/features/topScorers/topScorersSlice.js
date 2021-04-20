@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import sportDataApi from "../../api/sportDataApi";
-import { LEAGUE_IDS } from "../../config";
+import { LEAGUE_IDS } from "../../others/config";
 
 const initialState = {};
 LEAGUE_IDS.forEach((leagueId) => (initialState[leagueId] = { status: "idle" }));

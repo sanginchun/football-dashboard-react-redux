@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import PlayerDetail from "../features/players/PlayerDetail";
 
-import { MAX_TOP_SCORERS } from "../config";
+import { MAX_TOP_SCORERS } from "../others/config";
 import { fetchTopScorers } from "../features/topScorers/topScorersSlice";
 
 const propTypes = {

@@ -5,8 +5,8 @@ import {
   createSelector,
 } from "@reduxjs/toolkit";
 import sportDataApi from "../../api/sportDataApi";
-import { DATE_RANGE } from "../../config";
-import { formatTeamName, getLocalDate } from "../../helper";
+import { DATE_RANGE } from "../../others/config";
+import { formatTeamName, getLocalDate } from "../../others/helper";
 
 const matchesAdapter = createEntityAdapter({
   selectId: (entity) => entity.match_id,

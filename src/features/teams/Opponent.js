@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 import { selectTeamIdByTeamName } from "../teams/teamsSlice";
 import TeamDetail from "./TeamDetail";
-import { formatTeamName } from "../../helper";
+import { formatTeamName } from "../../others/helper";
 
 const propTypes = {
   match: PropTypes.object.isRequired,

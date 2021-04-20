@@ -17,7 +17,7 @@ import {
   customsUpdated,
   cardSelectionToggled,
 } from "../features/customs/customsSlice";
-import { getCardKey } from "../helper";
+import { getCardKey } from "../others/helper";
 import TeamDetail from "../features/teams/TeamDetail";
 import LeagueDetail from "../features/leagues/LeagueDetail";
 

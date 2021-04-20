@@ -4,7 +4,7 @@ import { Table } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 
 import { selectTeamIdByTeamName } from "./teamsSlice";
-import { formatTeamName } from "../../helper";
+import { formatTeamName } from "../../others/helper";
 
 const style = {
   Won: { backgroundColor: "lightcyan" },

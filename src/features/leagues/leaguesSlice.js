@@ -4,7 +4,7 @@ import {
   createEntityAdapter,
 } from "@reduxjs/toolkit";
 import sportDataApi from "../../api/sportDataApi";
-import { LEAGUE_IDS } from "../../config";
+import { LEAGUE_IDS } from "../../others/config";
 
 const leaguesAdapter = createEntityAdapter({
   selectId: (entity) => entity.league_id,

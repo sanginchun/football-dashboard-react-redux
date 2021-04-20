@@ -11,7 +11,7 @@ import { selectTeamById } from "../features/teams/teamsSlice";
 
 import Opponent from "../features/teams/Opponent";
 import TeamFormScore from "../features/teams/TeamFormScore";
-import { MAX_TEAM_FORM_MATCHES } from "../config";
+import { MAX_TEAM_FORM_MATCHES } from "../others/config";
 
 const propTypes = {
   leagueId: PropTypes.number.isRequired,

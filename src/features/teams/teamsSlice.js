@@ -5,8 +5,8 @@ import {
   createSelector,
 } from "@reduxjs/toolkit";
 import sportDataApi from "../../api/sportDataApi";
-import { LEAGUE_IDS } from "../../config";
-import { formatTeamName } from "../../helper";
+import { LEAGUE_IDS } from "../../others/config";
+import { formatTeamName } from "../../others/helper";
 import { standingsUpdated } from "../leagues/leaguesSlice";
 
 const teamsAdapter = createEntityAdapter({

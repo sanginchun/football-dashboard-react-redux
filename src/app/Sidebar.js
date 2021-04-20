@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { SIDEBAR_WIDTH } from "../config";
+import { SIDEBAR_WIDTH } from "../others/config";
 
 const style = {
   root: {

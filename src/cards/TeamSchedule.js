@@ -11,7 +11,7 @@ import {
 import { selectTeamById } from "../features/teams/teamsSlice";
 
 import Opponent from "../features/teams/Opponent";
-import { formatDate } from "../helper";
+import { formatDate } from "../others/helper";
 
 const propTypes = {
   leagueId: PropTypes.number.isRequired,

@@ -11,8 +11,8 @@ import {
   selectMatchesFinished,
   selectMatchesUpcoming,
 } from "../features/matches/matchesSlice";
-import DatePicker from "../app/DatePicker";
-import { getUniqueDates } from "../helper";
+import DatePicker from "./DatePicker";
+import { getUniqueDates } from "../others/helper";
 
 const propTypes = {
   subType: PropTypes.string.isRequired,

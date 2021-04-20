@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 import { selectTeamIdByTeamName } from "../teams/teamsSlice";
 import TeamDetail from "../teams/TeamDetail";
-import { formatTeamName } from "../../helper";
+import { formatTeamName } from "../../others/helper";
 
 const style = {
   teamDetail: { justifyContent: "center" },
