@@ -4,10 +4,10 @@
 
 ## Table of Contents
 
-- [Previous Versions](https://github.com/sanginchun/football-dashboard-react#previous-versions)
-- [Description](https://github.com/sanginchun/football-dashboard-react#description)
-- [Improvements](https://github.com/sanginchun/football-dashboard-react#improvements)
-- [Further Improvements](https://github.com/sanginchun/football-dashboard-react#further-improvements)
+- [Previous Versions](https://github.com/sanginchun/football-dashboard-react-redux#previous-versions)
+- [Description](https://github.com/sanginchun/football-dashboard-react-redux#description)
+- [Improvements](https://github.com/sanginchun/football-dashboard-react-redux#improvements)
+- [Further Improvements](https://github.com/sanginchun/football-dashboard-react-redux#further-improvements)
 
 ## Previous Versions
 
@@ -30,8 +30,8 @@
     - customs, leagues, matches, players, teams, topScorers
     - each feature has its own 'slice', which is responsible for initializing state, fetching data, exporting actions, handling actions in reducers, exporting selectors.
     - referenced the official [tutorial for Redux](https://redux.js.org/tutorials/essentials/part-1-overview-concepts) and usage guide of [Redux Toolkit](https://redux-toolkit.js.org/usage/usage-guide)
-  - [cards]: Card component, content detail components
-  - [others]: helper, config
+  - [cards](https://github.com/sanginchun/football-dashboard-react-redux/tree/master/src/cards): Card component, content detail components
+  - [others](https://github.com/sanginchun/football-dashboard-react-redux/tree/master/src/others): helper, config
 
 - Keeping states ['normalized'](https://redux.js.org/tutorials/essentials/part-6-performance-normalization#normalized-state-structure), more maintainable way.
 
@@ -127,5 +127,5 @@
 
 - Login functionality
   - keeping custom page settings in an account
-  - Multiple custom pages, giving page titles each
-- Refactor inline css codes using CSS-In-JS libraries such as styled-components
+  - multiple custom pages, giving page titles each
+- Refactor inline-CSS codes using CSS-In-JS libraries such as styled-components
