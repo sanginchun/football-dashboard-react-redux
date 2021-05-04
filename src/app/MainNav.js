@@ -11,6 +11,7 @@ import {
 
 import LeagueDetail from "../features/leagues/LeagueDetail";
 import TeamMenu from "../features/teams/TeamMenu";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 
 const style = {
   root: { position: "relative", marginTop: "4rem" },
@@ -21,6 +22,8 @@ function MainNav() {
   const dispatch = useDispatch();
   const leaguesIds = useSelector(selectLeagueIds);
   const [currentLeagueId, setCurrentLeagueId] = useState(null);
+
+  const isExSmall = useMediaQuery("(max-width: 600px)");
 
   // status
   const leaguesStatus = useSelector((state) => state.leagues.status);
@@ -46,7 +49,7 @@ function MainNav() {
 
   return (
     <nav style={style.root}>
-      <Menu vertical={true} size="large">
+      <Menu vertical={true} size={isExSmall ? "tiny" : "large"}>
         <Loader active={isLoading} />
         <Menu.Item as={Link} to={"/custom"} disabled={isLoading}>
           Custom

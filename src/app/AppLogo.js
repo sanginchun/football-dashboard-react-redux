@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 
 const style = {
   logo: {
@@ -19,15 +20,19 @@ const style = {
 };
 
 function AppLogo() {
+  const isExSmall = useMediaQuery("(max-width: 600px)");
+
   return (
     <Link to="/" style={{ color: "inherit" }}>
       <div style={style.logo}>
         <h1 style={style.emoji}>⚽</h1>
-        <h2 style={style.text}>
-          Football
-          <br />
-          Dashboard
-        </h2>
+        {isExSmall ? null : (
+          <h2 style={style.text}>
+            Football
+            <br />
+            Dashboard
+          </h2>
+        )}
       </div>
     </Link>
   );

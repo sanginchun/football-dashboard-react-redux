@@ -19,6 +19,10 @@ const style = {
     backgroundColor: "#fff",
     transition: `all 0.4s ease-in-out`,
   },
+  mobile: {
+    minWidth: `200px`,
+    padding: "2rem 0",
+  },
   editMode: {
     opacity: "0.5",
     pointerEvents: "none",
@@ -29,7 +33,7 @@ const style = {
   buttonVisible: {
     position: "fixed",
     top: "2rem",
-    right: "2rem",
+    right: "1.5%",
     zIndex: 99,
   },
   buttonNone: {
@@ -39,6 +43,7 @@ const style = {
 
 const Sidebar = (props) => {
   const isMedium = useMediaQuery("(max-width: 1200px)");
+  const isExSmall = useMediaQuery("(max-width: 600px)");
   const [open, setOpen] = useState(!isMedium);
   const isEditMode = useSelector((state) => state.customs.editMode);
 
@@ -46,6 +51,7 @@ const Sidebar = (props) => {
 
   if (isEditMode) rootStyle = { ...rootStyle, ...style.editMode };
   if (!open) rootStyle = { ...rootStyle, ...style.drawer };
+  if (isExSmall) rootStyle = { ...rootStyle, ...style.mobile };
 
   useEffect(() => {
     if (isMedium) setOpen(false);

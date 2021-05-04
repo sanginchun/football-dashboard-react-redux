@@ -6,11 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchTeams, selectTeamsIdsByLeagueId } from "./teamsSlice";
 import TeamDetail from "./TeamDetail";
 import { Dropdown } from "semantic-ui-react";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 
 const propTypes = { currentLeagueId: PropTypes.number };
 
 function TeamMenu({ currentLeagueId }) {
   const dispatch = useDispatch();
+
+  const isExSmall = useMediaQuery("(max-width: 350px)");
 
   const teamIds = useSelector((state) =>
     selectTeamsIdsByLeagueId(state, currentLeagueId)
@@ -27,7 +30,7 @@ function TeamMenu({ currentLeagueId }) {
 
   const renderedTeamMenu = teamIds.map((teamId) => (
     <Dropdown.Item key={teamId}>
-      <TeamDetail teamId={teamId} />
+      <TeamDetail teamId={teamId} code={isExSmall} />
     </Dropdown.Item>
   ));
 

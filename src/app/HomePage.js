@@ -29,7 +29,7 @@ function HomePage() {
         <h2>Welcome to Football Dashboard !</h2>
       </PageHeader>
       <Grid>
-        <Grid.Column width={12}>
+        <Grid.Column width={16}>
           <Card fluid={true} style={style.card}>
             <Card.Content>
               <Card.Header style={style.cardHeader}>
