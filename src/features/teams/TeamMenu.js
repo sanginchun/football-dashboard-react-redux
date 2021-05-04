@@ -29,7 +29,15 @@ function TeamMenu({ currentLeagueId }) {
   if (teamsStatus !== "succeeded") return null;
 
   const renderedTeamMenu = teamIds.map((teamId) => (
-    <Dropdown.Item key={teamId}>
+    <Dropdown.Item
+      key={teamId}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          const a = e.target.querySelector("a");
+          a.click();
+        }
+      }}
+    >
       <TeamDetail teamId={teamId} code={isExSmall} />
     </Dropdown.Item>
   ));

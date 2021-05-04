@@ -42,7 +42,16 @@ function MainNav() {
 
   // rendered components
   const renderedLeagueMenu = leaguesIds.map((leagueId) => (
-    <Dropdown.Item key={leagueId} onClick={() => setCurrentLeagueId(leagueId)}>
+    <Dropdown.Item
+      key={leagueId}
+      onClick={(e) => {
+        if (currentLeagueId !== leagueId) setCurrentLeagueId(leagueId);
+        if (e.target === e.currentTarget) {
+          const a = e.target.querySelector("a");
+          a.click();
+        }
+      }}
+    >
       <LeagueDetail leagueId={leagueId} />
     </Dropdown.Item>
   ));
