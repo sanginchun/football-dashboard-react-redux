@@ -8,6 +8,7 @@ import PlayerDetail from "../features/players/PlayerDetail";
 
 import { MAX_TOP_SCORERS } from "../others/config";
 import { fetchTopScorers } from "../features/topScorers/topScorersSlice";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 
 const propTypes = {
   leagueId: PropTypes.number.isRequired,
@@ -31,6 +32,9 @@ function TopScorers({ leagueId }) {
     (state) => state.topScorers[leagueId].topScorers
   );
 
+  const isSmall = useMediaQuery("(max-width: 800px)");
+  const isExSmall = useMediaQuery("(max-width: 600px)");
+
   useEffect(() => {
     if (!topScorers) dispatch(fetchTopScorers(leagueId));
   }, [dispatch, topScorers, leagueId]);
@@ -46,7 +50,7 @@ function TopScorers({ leagueId }) {
 
   return (
     <div style={style.root}>
-      <Table celled={true} size="small">
+      <Table celled={true} size="small" unstackable={true}>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell width={1} rowSpan="2">
@@ -55,10 +59,14 @@ function TopScorers({ leagueId }) {
             <Table.HeaderCell width={5} rowSpan="2">
               Player
             </Table.HeaderCell>
-            <Table.HeaderCell colSpan="4">Goals</Table.HeaderCell>
-            <Table.HeaderCell width={4} rowSpan="2">
-              Played
+            <Table.HeaderCell colSpan={isExSmall ? 2 : 4}>
+              Goals
             </Table.HeaderCell>
+            {isSmall ? null : (
+              <Table.HeaderCell width={4} rowSpan="2">
+                Played
+              </Table.HeaderCell>
+            )}
             <Table.HeaderCell width={2} rowSpan="2">
               Goal per 90Min
             </Table.HeaderCell>
@@ -67,8 +75,12 @@ function TopScorers({ leagueId }) {
             <Table.HeaderCell width={1} style={style.goalsOverall}>
               Overall
             </Table.HeaderCell>
-            <Table.HeaderCell width={1}>Home</Table.HeaderCell>
-            <Table.HeaderCell width={1}>Away</Table.HeaderCell>
+            {isExSmall ? null : (
+              <>
+                <Table.HeaderCell width={1}>Home</Table.HeaderCell>
+                <Table.HeaderCell width={1}>Away</Table.HeaderCell>
+              </>
+            )}
             <Table.HeaderCell width={1}>Penalty</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -86,12 +98,18 @@ function TopScorers({ leagueId }) {
                 }
               />
               <Table.Cell>{p.goals.overall}</Table.Cell>
-              <Table.Cell>{p.goals.home}</Table.Cell>
-              <Table.Cell>{p.goals.away}</Table.Cell>
+              {isExSmall ? null : (
+                <>
+                  <Table.Cell>{p.goals.home}</Table.Cell>
+                  <Table.Cell>{p.goals.away}</Table.Cell>
+                </>
+              )}
               <Table.Cell>{p.penalties || "0"}</Table.Cell>
-              <Table.Cell>
-                {p.matches_played} Games, {p.minutes_played} min
-              </Table.Cell>
+              {isSmall ? null : (
+                <Table.Cell>
+                  {p.matches_played} Games, {p.minutes_played} min
+                </Table.Cell>
+              )}
               <Table.Cell>
                 {((p.goals.overall / p.minutes_played) * 90).toFixed(2)}
               </Table.Cell>

@@ -71,7 +71,7 @@ function TeamStandings({ leagueId, teamId }) {
 
   return (
     <div style={style.root}>
-      <Table celled={true} size="small">
+      <Table celled={true} size="small" unstackable={true}>
         <Table.Header>
           <Table.Row>{renderedHeader}</Table.Row>
         </Table.Header>

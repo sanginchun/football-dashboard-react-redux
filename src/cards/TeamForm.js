@@ -12,6 +12,7 @@ import { selectTeamById } from "../features/teams/teamsSlice";
 import Opponent from "../features/teams/Opponent";
 import TeamFormScore from "../features/teams/TeamFormScore";
 import { MAX_TEAM_FORM_MATCHES } from "../others/config";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 
 const propTypes = {
   leagueId: PropTypes.number.isRequired,
@@ -36,6 +37,8 @@ function TeamForm({ leagueId, teamId }) {
   const leagueMatchesUpdated = useSelector(
     (state) => state.matches.updated[leagueId]
   );
+
+  const isExSmall = useMediaQuery("(max-width: 600px)");
 
   useEffect(() => {
     if (!leagueMatchesUpdated) {
@@ -82,16 +85,39 @@ function TeamForm({ leagueId, teamId }) {
     );
   });
 
+  const renderedTable = (
+    <Table celled={true} size="small" textAlign="center" unstackable={true}>
+      <Table.Body>
+        <Table.Row children={OpponentRow} />
+        <Table.Row children={ScoreRow} />
+        <Table.Row children={DateRow} />
+      </Table.Body>
+    </Table>
+  );
+
+  const mobileTable = (
+    <Table celled={true} size="small" textAlign="center" unstackable={true}>
+      <Table.Header style={style.header}>
+        <Table.Row>
+          <Table.HeaderCell width={4}>Opponent</Table.HeaderCell>
+          <Table.HeaderCell width={7}>Date</Table.HeaderCell>
+          <Table.HeaderCell width={5}>Score</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {slicedMatches.map((match) => (
+          <Table.Row key={match.match_id}>
+            <Opponent match={match} team={currentTeam} code={true} />
+            <Table.Cell>{match.match_start_local.split(" ")[0]}</Table.Cell>
+            <TeamFormScore match={match} team={currentTeam} />
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table>
+  );
+
   return (
-    <div style={style.root}>
-      <Table celled={true} size="small" textAlign="center">
-        <Table.Body>
-          <Table.Row children={OpponentRow} />
-          <Table.Row children={ScoreRow} />
-          <Table.Row children={DateRow} />
-        </Table.Body>
-      </Table>
-    </div>
+    <div style={style.root}>{isExSmall ? mobileTable : renderedTable}</div>
   );
 }
 

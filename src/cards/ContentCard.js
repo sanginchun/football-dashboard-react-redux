@@ -20,6 +20,7 @@ import {
 import { getCardKey } from "../others/helper";
 import TeamDetail from "../features/teams/TeamDetail";
 import LeagueDetail from "../features/leagues/LeagueDetail";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 
 const propTypes = {
   type: PropTypes.string.isRequired,
@@ -108,6 +109,8 @@ function ContentCard({ type, leagueId, teamId, isCustom }) {
     state.customs.selected.includes(cardKey)
   );
 
+  const isSmall = useMediaQuery("(max-width: 800px)");
+
   const { width, title, subType, Content } = cardConfig[type];
 
   const renderedHeader = isCustom ? (
@@ -158,7 +161,7 @@ function ContentCard({ type, leagueId, teamId, isCustom }) {
   ) : null;
 
   return (
-    <Grid.Column width={width}>
+    <Grid.Column width={isSmall ? 16 : width}>
       <Card fluid={true} style={style.card}>
         <Card.Content>
           {editModeCheckbox}

@@ -112,7 +112,7 @@ function Matches({ subType, leagueId }) {
     <React.Fragment>
       {renderedDatePicker}
       <div style={style.root}>
-        <Table celled={true} size="small" textAlign="center">
+        <Table celled={true} size="small" textAlign="center" unstackable={true}>
           <Table.Header>
             <Table.Row>{renderedHeader}</Table.Row>
           </Table.Header>
