@@ -4,6 +4,7 @@ import Sidebar from "./app/Sidebar";
 import AppLogo from "./app/AppLogo";
 import MainNav from "./app/MainNav";
 import MainDisplay from "./app/MainDisplay";
+import HomePage from "./app/HomePage";
 import LeaguePage from "./features/leagues/LeaguePage";
 import TeamPage from "./features/teams/TeamPage";
 import CustomPage from "./features/customs/CustomPage";
@@ -31,7 +32,7 @@ function App() {
               path="/league/:leagueId/:teamId"
               render={() => <TeamPage />}
             />
-            <Route render={() => <div>MainDisplay</div>} />
+            <Route render={() => <HomePage />} />
           </Switch>
         </MainDisplay>
       </BrowserRouter>

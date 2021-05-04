@@ -30,7 +30,7 @@ const propTypes = {
 
 const defaultProps = { isCustom: false };
 
-const style = {
+export const style = {
   card: { minHeight: "280px" },
   cardHeader: { display: "flex" },
   headerDetail: {
