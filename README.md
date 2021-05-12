@@ -4,21 +4,21 @@
 
 ## Table of Contents
 
-- [Previous Versions](https://github.com/sanginchun/football-dashboard-react-redux#previous-versions)
 - [Description](https://github.com/sanginchun/football-dashboard-react-redux#description)
+- [Previous Versions](https://github.com/sanginchun/football-dashboard-react-redux#previous-versions)
 - [Improvements](https://github.com/sanginchun/football-dashboard-react-redux#improvements)
 - [Further Improvements](https://github.com/sanginchun/football-dashboard-react-redux#further-improvements)
+
+## Description
+
+- Football dashboard is a single-page application that shows up-to-date information about football leagues and teams.
+- Used [SportDataApi](https://sportdataapi.com/football-soccer-api) which is not a public api, so error might occur due to the request limit.
+- Built with Vanilla JS first, then making improvements using React, Redux.
 
 ## Previous Versions
 
 - [Vanilla JS](https://github.com/sanginchun/football-dashboard)
 - [React](https://github.com/sanginchun/football-dashboard-react)
-
-## Description
-
-- Football dashboard is a single-page application that shows up-to-date information about football leagues and teams.
-- Used [SportDataApi](https://app.sportdataapi.com/) which is not a public api, so error might occur due to the request limit.
-- Built with Vanilla JS first, then making improvements using React, Redux.
 
 ## Improvements
 
