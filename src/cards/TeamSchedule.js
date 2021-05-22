@@ -46,6 +46,13 @@ function TeamSchedule({ leagueId, teamId }) {
   }, [dispatch, leagueMatchesUpdated, leagueId]);
 
   if (!matches.length || !currentTeam) {
+    if (leagueMatchesUpdated) {
+      return (
+        <div>
+          <h3>No Matches</h3>
+        </div>
+      );
+    }
     return (
       <Placeholder fluid={true}>
         {Array.from({ length: config.placeholderLines }, (_, i) => (

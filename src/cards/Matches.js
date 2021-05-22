@@ -68,6 +68,13 @@ function Matches({ subType, leagueId }) {
   }, [matches, subType]);
 
   if (!matches.length) {
+    if (leagueMatchesUpdated) {
+      return (
+        <div>
+          <h3>No Matches</h3>
+        </div>
+      );
+    }
     return (
       <Placeholder fluid={true}>
         {Array.from({ length: config[subType].placeholderLines }, (_, i) => (
