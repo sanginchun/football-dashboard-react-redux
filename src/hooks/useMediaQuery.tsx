@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 
-export function useMediaQuery(query) {
+type Props = {
+  query: string;
+};
+
+export function useMediaQuery({ query }: Props) {
   const [matches, setMatches] = useState(window.matchMedia(query).matches);
 
   useEffect(() => {
